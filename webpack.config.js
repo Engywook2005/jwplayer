@@ -144,7 +144,18 @@ var multiConfig = _.compact(_.map([
                     },
                     loader: 'babel-loader'
                 }
-            ]
+            ],
+            rules: [{
+                test: /\.js$/,
+                include: /(src)\/(js)\//,
+                loader: 'istanbul-instrumenter-loader'
+            }],
+            postLoaders: [{
+                test: /\.js$/,
+                include: /(src)\/(js)\//,
+                exclude: /(test|node_modules)\//,
+                loader: 'istanbul-instrumenter-loader'
+            }]
         }
     });
 }));

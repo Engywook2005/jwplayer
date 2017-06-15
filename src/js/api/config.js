@@ -50,7 +50,8 @@ define([
             close: 'Close',
         },
         renderCaptionsNatively: true,
-        nextUpDisplay: true
+        nextUpDisplay: true,
+        preload: 'meta'
     };
 
     function _deserialize(options) {
@@ -66,7 +67,7 @@ define([
         return val;
     }
 
-    const createConfig = function (options, storage) {
+    return function createConfig(options, storage) {
         const persisted = storage && storage.getAllItems();
         let allOptions = _.extend({}, (window.jwplayer || {}).defaults, persisted, options);
 
@@ -188,7 +189,4 @@ define([
         }
         return (h / w * 100) + '%';
     }
-
-
-    return createConfig;
 });
