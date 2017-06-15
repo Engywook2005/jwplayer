@@ -25,6 +25,19 @@ define([
                 ]
             }, configuration.playlistItem);
 
+            var customCaptions = {
+                back: true,
+                fontSize: 14,
+                fontFamily: 'Arial,sans-serif',
+                fontOpacity: 100,
+                color: '#FFF',
+                backgroundColor: '#000',
+                backgroundOpacity: 100,
+                edgeStyle: null,
+                windowColor: '#FFF',
+                windowOpacity: 0
+            };
+
             this.attributes = _.extend({}, {
                 id: '',
                 // See api/config `Defaults`:
@@ -117,9 +130,9 @@ define([
                 ],
                 config: {},
                 sdkplatform: false,
-                preload: 'meta',
             }, configuration);
-            
+
+
             if (configuration.autostartMobile) {
                 this.autoStartOnMobile = function() {
                     return true;
@@ -132,7 +145,7 @@ define([
 
             var mediaElement = document.createElement('video');
             mediaElement.src = '//content.bitsontherun.com/videos/bkaovAYt-52qL9xLP.mp4';
-            mediaElement.preload = 'meta';
+            mediaElement.preload = 'none';
 
             this.attributes.provider = {
                 name: 'flash',
@@ -141,14 +154,14 @@ define([
                         name: 'flash'
                     };
                 },
-                setContainer: function() {
+                setContainer: function(element) {
                     // element.appendChild(mediaElement[0]);
                 },
                 setVisibility: function(state) {
                     mediaElement.style.visibility = state ? 'visible' : '';
                     mediaElement.style.opacity = state ? 1 : 0;
                 },
-                seek: function() {
+                seek: function(time) {
                     // mediaElement[0].load();
                     // mediaElement[0].currentTime = time;
                     // mediaElement[0].pause();

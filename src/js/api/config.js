@@ -50,8 +50,7 @@ define([
             close: 'Close',
         },
         renderCaptionsNatively: true,
-        nextUpDisplay: true,
-        preload: 'meta'
+        nextUpDisplay: true
     };
 
     function _deserialize(options) {
@@ -67,7 +66,7 @@ define([
         return val;
     }
 
-    return function createConfig(options, storage) {
+    const createConfig = function (options, storage) {
         const persisted = storage && storage.getAllItems();
         let allOptions = _.extend({}, (window.jwplayer || {}).defaults, persisted, options);
 
@@ -140,14 +139,6 @@ define([
             delete config.aspectratio;
         }
 
-        normalizePlaylist(config);
-
-        config.qualityLabels = config.qualityLabels || config.hlslabels;
-
-        return config;
-    };
-
-    function normalizePlaylist(config) {
         const configPlaylist = config.playlist;
         if (!configPlaylist) {
             // This is a legacy fallback, assuming a playlist item has been flattened into the config
@@ -163,13 +154,18 @@ define([
                 'preload'
             ]);
 
-            config.playlist = [obj];
+            config.playlist = [ obj ];
         } else if (_.isArray(configPlaylist.playlist)) {
             // The "playlist" in the config is actually a feed that contains a playlist
             config.feedData = configPlaylist;
             config.playlist = configPlaylist.playlist;
         }
-    }
+
+        config.qualityLabels = config.qualityLabels || config.hlslabels;
+
+        return config;
+    };
+
 
     function _evaluateAspectRatio(ar, width) {
         if (width.toString().indexOf('%') === -1) {
@@ -192,4 +188,7 @@ define([
         }
         return (h / w * 100) + '%';
     }
+
+
+    return createConfig;
 });
