@@ -140,6 +140,14 @@ define([
             delete config.aspectratio;
         }
 
+        normalizePlaylist(config);
+
+        config.qualityLabels = config.qualityLabels || config.hlslabels;
+
+        return config;
+    };
+
+    function normalizePlaylist(config) {
         const configPlaylist = config.playlist;
         if (!configPlaylist) {
             // This is a legacy fallback, assuming a playlist item has been flattened into the config
@@ -155,18 +163,13 @@ define([
                 'preload'
             ]);
 
-            config.playlist = [ obj ];
+            config.playlist = [obj];
         } else if (_.isArray(configPlaylist.playlist)) {
             // The "playlist" in the config is actually a feed that contains a playlist
             config.feedData = configPlaylist;
             config.playlist = configPlaylist.playlist;
         }
-
-        config.qualityLabels = config.qualityLabels || config.hlslabels;
-
-        return config;
-    };
-
+    }
 
     function _evaluateAspectRatio(ar, width) {
         if (width.toString().indexOf('%') === -1) {
