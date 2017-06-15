@@ -134,7 +134,7 @@ define([
 
 
             if (configuration.autostartMobile) {
-                this.autoStartOnMobile = function() {
+                    this.autoStartOnMobile = function() {
                     return true;
                 };
             }
