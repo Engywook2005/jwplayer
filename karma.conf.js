@@ -15,6 +15,19 @@ const aliases = {
 
 webpackConfig.resolve.alias = Object.assign(webpackConfig.resolve.alias || {}, aliases);
 
+webpackConfig.module.rules = [{
+    test: /\.js$/,
+    include: /(src)\/(js)\//,
+    loader: 'istanbul-instrumenter-loader'
+}];
+
+webpackConfig.module.postLoaders = [{
+    test: /\.js$/,
+    include: /(src)\/(js)\//,
+    exclude: /(test|node_modules)\//,
+    loader: 'istanbul-instrumenter-loader'
+}];
+
 module.exports = function(config) {
     var env = process.env;
     var isJenkins = !!process.env.JENKINS_HOME;
@@ -83,7 +96,6 @@ module.exports = function(config) {
         // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
         preprocessors: {
             'test-context.js': ['webpack'],
-            'src/js/*.js': ['coverage']
         },
 
         coverageIstanbulReporter: {
